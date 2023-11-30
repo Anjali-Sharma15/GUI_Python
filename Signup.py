@@ -1,162 +1,94 @@
 import tkinter
+import shutil
 from tkinter import *
-from PIL import Image,ImageTk
-from tkinter import messagebox
-class BOG(Tk):
+from tkcalendar import Calendar,DateEntry
+from tkinter import messagebox,filedialog,Text
+
+class signup(Tk):
     def __init__(self):
         super().__init__()
-        self.geometry("800x800")
-        self.title("Bank Of Ghaziabad")
-        self.config(bg="light blue")
-        self.balance=50000
-        photo=PhotoImage(file="BankIcon.png")
-        self.iconphoto(False,photo)
-        Label(self,text="Welcome to online transaction at BOG!",bg="light blue",font="times 20 bold").pack(pady=10)
-        f1=Frame(self).pack()
-        f2=Frame(self).pack()
-        Label(f1,text="User ID",bg="light blue",font="times 12 bold").place(x=500,y=70)
-        Label(f2,text="Password",bg="light blue",font="times 12 bold").place(x=500,y=100)
-        # userid=StringVar()
-        # pswrd=StringVar()
-        self.userid=StringVar()
-        e1=Entry(f1,textvariable=self.userid)
-        e1.place(x=610,y=70)
-        self.pswrd=StringVar()
-        e2=Entry(f2,textvariable=self.pswrd)
-        e2.place(x=610,y=100)
-        # self.data1=e1.get()
-        # self.data2=e2.get()
-        Label(self,text="New customers kindly register!",fg="red",bg="light blue").place(x=560,y=130)
-        f3=Frame(self).pack()
-        def login():            
-            if self.userid.get()==self.user.get() and self.pswrd.get()==self.passcode.get():
-                service=Toplevel(self)
-                service.geometry("900x900")
-                service.config(bg="light green")
-                service.title("Services @ BOG")
-                photo=PhotoImage(file="BankIcon.png")
-                service.iconphoto(False,photo)
-                Label(service,text="Welcome to online services at BOG",bg="light green",font="times 20 bold").pack(pady=20)
-                def deposit():    
-                    Label(service,text="Enter deposit amount",bg="light green").place(x=200,y=250)
-                    self.var=StringVar()
-                    self.e1=Entry(service,textvariable=self.var)   
-                    self.e1.place(x=330,y=250)
-                    def enter():
-                        self.balance=self.balance+int(self.var.get())
-                        Label(service,text="Account balance =",bg="light green").place(x=200,y=290)
-                        Label(service,text=self.balance,bg="light green").place(x=300,y=290)
-                    b5=Button(service,text="Enter",command=enter,relief=SUNKEN,bd=2,bg="light blue").place(x=230,y=320)
-                    
-                b1=Button(service,text="Deposit",command=deposit,bd=2,relief=SUNKEN,bg="pink",width=20,font="times 15 bold").place(x=200,y=180)
-                def withdrawal():    
-                    Label(service,text="Enter withdrawal amount",bg="light green").place(x=200,y=450)
-                    self.var=StringVar()
-                    self.e2=Entry(service,textvariable=self.var)   
-                    self.e2.place(x=350,y=450)
-                    def enter():
-                        self.balance=self.balance-int(self.var.get())
-                        Label(service,text="Account balance =",bg="light green").place(x=200,y=490)
-                        Label(service,text=self.balance,bg="light green").place(x=300,y=490)
-                    b5=Button(service,text="Enter",command=enter,relief=SUNKEN,bd=2,bg="light blue").place(x=200,y=530)
-                    
-                b2=Button(service,text="Withdrawal",command=withdrawal,bd=2,relief=SUNKEN,bg="pink",width=20,font="times 15 bold").place(x=200,y=400)
-                def Check_Balance():
-                    Label(service,text="Available account Balance =",bg="light green").place(x=500,y=230)
-                    Label(service,text=self.balance,bg="light green").place(x=650,y=230)
-                b3=Button(service,text="Check Balance",command=Check_Balance,bd=2,relief=SUNKEN,bg="pink",width=20,font="times 15 bold").place(x=500,y=180)
-                def logout():
-                    m=messagebox.askyesno("Logout","Are you sure you want to exit?",parent=service)
-                    if m==YES:
-                        service.destroy()
-                    if m==NO:
-                        pass
-                b4=Button(service,text="Logout",command=logout,bd=2,relief=SUNKEN,bg="pink",width=20,font="times 15 bold").place(x=500,y=400)
-                
-                service.mainloop()
-            else:
-                Label(self,text="Please try again!",bg="light blue").place(x=560,y=200)
-        def register():
-            win=Toplevel(self)
+        self.geometry("900x900")
+        self.title("Signup Form")
+        self.config(bg="light green")
+        
+        Label(self,text="Signup Form @ Job_Portal",font="times 18 bold",bg="light green").pack(pady=12)
+        Label(self,text="Name",bg="light green",font="times 14 bold").place(x=80,y=90)
+        self.var=StringVar()
+        e1=Entry(self,textvariable=self.var)
+        e1.place(x=210,y=90)    
+        Label(self,text="Date of birth: ",font="times 14 bold",bg="light green").place(x=80,y=130)
+        self.var10=StringVar()
+        self.cal=DateEntry(self,selectmode="day",textvariable=self.var10)
+        self.cal.place(x=210,y=130)     
+        self.var5=IntVar()
+        Label(self,text="Select gender",font="times 14 bold",bg="light green").place(x=80,y=190)
+        Radiobutton(self,text="Male",bg="light green",font="times 12 bold",variable=self.var5,value=0).place(x=210,y=190)
+        Radiobutton(self,text="Female",bg="light green",font="times 12 bold",variable=self.var5,value=1).place(x=270,y=190)
+        self.var6=StringVar()
+        self.var6.set("Select")
+        l3=["Algeria","Australia","Brazil","Canada","Denmark","France","India","Nepal","Srilanka","Ukraine"]
+        Label(self,text="Country",bg="light green",font="times 14 bold").place(x=80,y=230)
+        OptionMenu(self,self.var6,*l3).place(x=210,y=230)
+        Label(self,text="Address",bg="light green",font="times 14 bold").place(x=80,y=290)
+        self.t6=Text(self,width=40,height=3)
+        self.t6.place(x=210,y=290)
+        Label(self,text="Resume",bg="light green",font="times 14 bold").place(x=80,y=370)
+        def upload():
+            win=Toplevel(self)         
             win.geometry("600x600")
-            win.title("Registration Form @ BOG")
-            win.config(bg="light green")
-            photo=PhotoImage(file="BankIcon.png")
-            win.iconphoto(False,photo)
-            # registration form labels
-            Label(win,text="Registration Credentials!",font="times 20 bold",bg="light green").pack(pady=10)
-            Label(win,text="Name",font="times 11 bold",bg="light green").place(x=30,y=50)
-            Label(win,text="Phone Number",font="times 11 bold",bg="light green").place(x=30,y=90)
-            Label(win,text="User ID",font="times 11 bold",bg="light green").place(x=30,y=130)
-            Label(win,text="Password",font="times 11 bold",bg="light green").place(x=30,y=170)
-            # registration from entries
-            self.name=StringVar()
-            self.phoneno=StringVar()
-            self.user=StringVar()
-            self.passcode=StringVar()
-            e3=Entry(win,textvariable=self.name)
-            e3.place(x=140,y=50)
-            e4=Entry(win,textvariable=self.phoneno)
-            e4.place(x=140,y=90)
-            e5=Entry(win,textvariable=self.user)
-            e5.place(x=140,y=130)
-            e6=Entry(win,textvariable=self.passcode)
-            e6.place(x=140,y=170)
-            # self.data3=self.name.get()
-            # self.data4=self.phoneno.get()
-            # self.data5=self.user.get()
-            # self.data6=self.passcode.get()
-            
-
-            Checkbutton(win,bg="light green",text="All details filled!").place(x=80,y=200)
-            
-            def check():
-                def phoneno():
-                    return any(c.isalpha() for c in self.phoneno.get())
-                if phoneno()==True:
-                    messagebox.showerror("Registration","Invalid phone number!",parent=win)                   
-                elif self.name.get()=="" or self.phoneno.get()=="" or self.user.get()=="" or self.passcode.get()=="":
-                    messagebox.showerror("Registration","Please fill all the details!",parent=win)
-                elif  len(self.phoneno.get())!=10:
-                    messagebox.showerror("Registration","Invalid phone number!",parent=win)
-                      
-                else:
-                    messagebox.showinfo("Registration","Registration complete! Please login Again!",parent=win)
-                    win.destroy()
-            def passcode():
-                if len(self.passcode.get())>=5:
-                    l,u,d,p=0,0,0,0
-                    for ch in self.passcode.get():
-                        if ch.isdigit():
-                            d=d+1
-                        if ch.isupper():
-                            u=u+1
-                        if ch.islower():
-                            l=l+1
-                        if (ch=='#' or ch=='@' or ch=='*'):
-                            p=p+1
-                    if (l>=1 and u>=1 and d>=1 and p>=1):
-                        Label(win,text="Password available!",fg="blue",bg="light green").place(x=60,y=300)
-                    else:
-                        messagebox.showerror("Registration","Incorrect password!",parent=win)
-                        win.destroy()
-                else:
-                    Label(win,text="Please enter a valid password!",bg="light green",fg="red").place(x=60,y=280)
-                    win.destroy()
-            
-            t20=Label(win,bg="light green",fg="black",text="Password should contain atleast one Uppercase,\n one Lowercase, one digit and \n  any one of (#,@ or *)",font="helvetica 10 italic").place(x=370,y=60)
-            Button(win,text="Check password",bg="light blue",relief=SUNKEN,bd=1,command=passcode,height=1).place(x=290,y=170)
-            Button(win,text="Confirm registration",bg="light blue",relief=SUNKEN,bd=1,command=check).place(x=70,y=230)
+            win.title("Upload resume")  
+            win.config(bg="white")
+            # f1=Frame(win)
+            # f1.pack()
+            self.t=Text(win,height=35,width=180,bg="white")
+            self.t.pack()
+            f=filedialog.askopenfilename(parent=win,filetypes=(("All files","*.*"),("Python files","*.txt")))
+            self.f1=open(f,mode='r')
+            mytext=self.f1.read()
+            self.t.insert(1.0,mytext)
+            self.f1.close()
+    
+            def save():
+                self.mytext2=self.t.get(1.0,END)
+                messagebox.showinfo("My Portfolio","Your Resume is saved! Kindly review before submitting.")
+            b=Button(win,text="Save",command=save,bg="light pink",width=8,font="times 11 bold")
+            b.pack()
+            def edit():
+                self.f1=open(f,mode='w')
+                self.f1.write(self.t.get(1.0,END))
+                self.f1.close()
+            b=Button(win,text="Edit",command=edit,bg="light pink",width=8,font="times 11 bold")
+            b.pack(pady=10)
+            win.mainloop()       
         
-        Button(f3,text="Login",bg="light green",command=login,relief=SUNKEN,bd=1).place(x=550,y=160)
-        Button(f3,text="Register",bg="light green",command=register,relief=SUNKEN,bd=1).place(x=670,y=160)
-       
-        self.photo3=PhotoImage(file="Banking.png")
+        Button(self,text="Upload",command=upload,bd=2,width=8,relief=SUNKEN,bg="light pink",font="times 14 bold").place(x=210,y=370)
+        def submit():
+            messagebox.showinfo("My portfolio","Resume submitted!")
+        def view():
+            won=Toplevel(self)
+            won.geometry("900x900")
+            won.config(bg="light blue")
+            Label(won,text="Candidate's Portfolio",font="times 18 bold",bg="light blue").pack(pady=10)
+            Label(won,text="Name- "+self.var.get(),font="times 12 bold",bg="light blue").place(x=20,y=30)
+            Label(won,text="Country- "+self.var6.get(),font="times 12 bold",bg="light blue").place(x=20,y=50)
+            if self.var5.get()==0:
+                Label(won,text="Gender- Male",font="times 12 bold",bg="light blue").place(x=20,y=70)
+            elif self.var5.get()==1:
+                Label(won,text="Gender- Female",font="times 12 bold",bg="light blue").place(x=20,y=70)
+            Label(won,text="Date of birth- "+self.var10.get(),font="times 12 bold",bg="light blue").place(x=20,y=90)
+            Label(won,text="Address- "+self.t6.get(1.0,END),font="times 12 bold",bg="light blue").place(x=20,y=110)
+            f2=Frame(won)
+            f2.place(x=20,y=150)
+            t2=Text(f2,width=120,height=38,bg="light blue")
+            t2.pack(side=LEFT,fill=BOTH)
+            s2=Scrollbar(f2)
+            s2.pack(side=RIGHT,fill=BOTH)
+            t2.config(yscrollcommand=s2.set)
+            s2.config(command=t2.yview)
+            t2.insert(1.0,self.mytext2)
+            won.mainloop()
+        Button(self,text="Review",bg="light pink",command=view,bd=2,relief=SUNKEN,width=8,font="times 14 bold").place(x=310,y=370)     
+        Button(self,text="Submit",bg="light pink",command=submit,bd=2,relief=SUNKEN,width=8,font="times 14 bold").place(x=410,y=370) 
         
-        L19=Label(self,image=self.photo3).place(x=490,y=250)
-root=BOG()
+root=signup()
 root.mainloop()
-        
-        
- 
- 
